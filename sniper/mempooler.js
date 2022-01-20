@@ -1,14 +1,15 @@
-
 import Web3 from 'web3'
+
 const HMY_RPC_URL = "ws://10.0.0.173:9800";
+const MAIN_RPC = "https://api.harmony.one";
 const web3 = new Web3(HMY_RPC_URL);
 
-import { createRequire } from "module";
+import {createRequire} from "module";
+
 const require = createRequire(import.meta.url); // construct the require method
 const config = require("../etc/info.json") // use the require method
-
-
 import InputDataDecoder from 'ethereum-input-data-decoder';
+
 const decoder = new InputDataDecoder('../etc/SaleAuction.json');
 
 const JEWEL_TO_BIGINT = 1000000000000000000;
@@ -27,7 +28,7 @@ function listen() {
             console.log(error);
     })
     subscription.on("data", async function (transactionHash) {
-        getTx( transactionHash);
+        getTx(transactionHash);
 
     })
 }
@@ -35,7 +36,7 @@ function listen() {
 async function getTx(transactionHash) {
     web3.eth.getTransaction(transactionHash).then(r => {
         if (r !== null) {
-            checkAuction(r, HMY_RPC_URL)
+            checkAuction(r, MAIN_RPC)
         }
 
     })
@@ -56,16 +57,12 @@ function checkAuction(transaction, rpc) {
                             + (result.inputs[1].toString() / JEWEL_TO_BIGINT)
                             + '\n miner found in block ')
                         if (result.inputs[1].toString() / JEWEL_TO_BIGINT <= config.MINER_BUY_PRICE) {
-                            await bid_loop(result, rpc)
-
-
+                            await bid_loop(result, rpc,config.MINER_SALE_PRICE)
                         }
                         if (hero.class === "knight") {
                             console.log("Knight")
                             if (result.inputs[1].toString() / JEWEL_TO_BIGINT <= config.KNIGHT_BUY_PRICE) {
-                                await bid_loop(result, rpc)
-
-
+                                await bid_loop(result, rpc,config.KNIGHT_SALE_PRICE)
                             }
                         }
                     }
@@ -76,11 +73,11 @@ function checkAuction(transaction, rpc) {
     }
 }
 
-async function bid_loop(result, rpc) {
+async function bid_loop(result, rpc,sell_price) {
     console.log('buying ...')
     for (let i = 0; i < 5; i++) {
 
-        bid(result.inputs[0].toString(), result.inputs[1].toString(), rpc).then(r => {
+        bid(result.inputs[0].toString(), result.inputs[1].toString(), rpc,sell_price).then(r => {
             console.log("harmony rpc" + r)
         })
         await new Promise(resolve => setTimeout(resolve, 1900));
