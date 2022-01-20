@@ -1,0 +1,12 @@
+{
+  "type": "module",
+  "dependencies": {
+    "ethereum-input-data-decoder": "^0.3.5",
+    "ethers": "^5.5.3",
+    "sqlite3": "^5.0.2",
+    "web3": "^1.7.0"
+  },
+  "devDependencies": {
+    "twilio": "^3.73.0"
+  }
+}
