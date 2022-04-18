@@ -18,7 +18,7 @@ export function sendText(body){
         .create({
             body: body,
             messagingServiceSid: 'MGe3797d9c84c3016e9f0fd4f7d5949b15',
-            to: '+17039801908'
+            to: ''
         })
         .then(message => console.log(message.sid))
         .done();
