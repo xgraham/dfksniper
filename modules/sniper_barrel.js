@@ -36,8 +36,7 @@ async function list(tokenId, buyPrice,decryptedWallet,provider, sell_price) {
     let human_price = sell_price / config.SATS_PER_JEWEL
     sendText("Listing for "+human_price.toString())
     if (sell_price < buyPrice){
-        sendText("Can you fix listing api already?!?!")
-        throw new Error("you fuck up the fucking sell price you idiot but at least this error is here to save your ass");
+        throw new Error("Sale price lower than buy price");
 
     }
     else if(sell_price>buyPrice) {
