@@ -2,7 +2,7 @@ import twilio from "twilio";
 import {ethers} from "ethers";
 import { createRequire } from "module";
 import {sendText} from "../etc/util.js";
-const my_address = '0x577c359D434A07a09f649D10c645F1c2fA5E5CB4'
+const my_address = ''
 
 const require = createRequire(import.meta.url); // construct the require method
 
